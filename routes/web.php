@@ -31,10 +31,15 @@ Route::get('/gallery', function () {
         "title" => "Gallery"
     ]);
 });
-Route::get('/contacts', function () {
-    return view ('contacts', [
-        "title" => "Contacts"
+Route::get('/', function () {
+    return view ('index', [
+        "title" => "Beranda"
     ]);
 });
 
 Route::resource('/contacts', ContactController::class);
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
